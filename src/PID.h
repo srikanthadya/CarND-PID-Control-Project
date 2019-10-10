@@ -44,6 +44,7 @@ class PID {
   double d_error;
   double best_err;
   double total_error;
+  int counter;
   
 
   /**
