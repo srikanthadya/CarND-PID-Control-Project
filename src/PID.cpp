@@ -22,12 +22,15 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
   this -> i_error = 0;
   this -> prev_err = 0;
   this -> best_err = 1000000;
-  p.push_back(0);
-  p.push_back(0);
-  p.push_back(0);
-  dp.push_back(1.0);
-  dp.push_back(1.0);
-  dp.push_back(1.0);
+  
+  dp_p = Kp/10.0;
+  dp_d = Kd/10.0;
+  dp_i = Ki/10.0;
+  
+  change = true;
+  param = 0;
+  
+  
 
 }
 
@@ -57,30 +60,85 @@ void PID::Twidel(){
   
   
   std::cout << "Here " << std::endl;
+  current_err = total_error;
+
   double sum = 0;
-  for (int i=0;i<3;i++){
-    sum+=dp[i];
-  }
-  if (sum > 0.000001 ){
   
-  for (int i=0;i<3;i++){
+  sum = dp_p + dp_d + dp_i;
+  
+  if (sum > 0.000001 ){
     
-  if ( total_error < best_err){
-    p[i] += dp[i];
-    dp[i] *= 1.1;
+    //Kp += dp_p;
     
-  }
-    else {
-     p[i] -= 2 * dp[i];
-     dp[i] *= 0.9; 
+    if (current_err < best_err){
+      
+      best_err = current_err;
+      
+      if (param == 0){
+        dp_p *=1.1;
+      }
+      else if (param == 1){
+        dp_d *=1.1;
+      }
+      else{
+        dp_i *=1.1;
+      }
+      
+      param = (param+1)%3;
+      change = true;
     }
-    
-    
-  }
-    Kp = p[0];
-  	Kd = p[1];
-  	Ki = p[2];
-    std::cout << Kp << std::endl;
+    else { 
+      
+      if (change == true){
+        change = false;
+      }
+      
+      else {
+        if (param ==0){
+          Kp += dp_p;
+          dp_p *= 0.9;
+        }
+        
+        else if (param ==1){
+          Kd += dp_d;
+          dp_d *= 0.9;
+        }
+        
+        else {
+          Ki += dp_i;
+          dp_i *= 0.9;
+        }
+        
+        param = (param+1)%3;
+        change = true;
+      }
+      
+    }
+    if (param ==0){
+      if (change == true){
+        Kp += dp_p;
+      }
+      else{
+        Kp -= 2*dp_p;
+      }      
+    }
+    if (param ==1){
+      if (change == true){
+        Kd += dp_d;
+      }
+      else{
+        Kd -= 2*dp_d;
+      }      
+    }
+    if (param ==2){
+      if (change == true){
+        Ki += dp_i;
+      }
+      else{
+        Ki -= 2*dp_i;
+      }      
+    }
+  
   }
   
   

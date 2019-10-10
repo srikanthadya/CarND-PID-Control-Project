@@ -44,6 +44,7 @@ class PID {
   double d_error;
   double best_err;
   double total_error;
+  
 
   /**
    * PID Coefficients
@@ -52,8 +53,13 @@ class PID {
   double Ki;
   double Kd;
   
-  std::vector<double> dp;
-  std::vector<double> p;
+  double dp_p;
+  double dp_d;
+  double dp_i;
+  double current_err;
+  int param;
+  
+  bool change;
 };
 
 #endif  // PID_H
