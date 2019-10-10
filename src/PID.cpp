@@ -59,16 +59,17 @@ double PID::TotalError(double cte) {
 void PID::Twidel(){
   
   
-  std::cout << "Here " << std::endl;
+  
   current_err = total_error;
 
   double sum = 0;
   
   sum = dp_p + dp_d + dp_i;
   
-  if (sum > 0.000001 ){
+  //if (sum > 0.00001 ){
     
     //Kp += dp_p;
+    
     
     if (current_err < best_err){
       
@@ -94,6 +95,7 @@ void PID::Twidel(){
       }
       
       else {
+        
         if (param ==0){
           Kp += dp_p;
           dp_p *= 0.9;
@@ -119,6 +121,7 @@ void PID::Twidel(){
         Kp += dp_p;
       }
       else{
+        std::cout << "Kp " << std::endl;
         Kp -= 2*dp_p;
       }      
     }
@@ -127,6 +130,7 @@ void PID::Twidel(){
         Kd += dp_d;
       }
       else{
+        std::cout << "Kd " << std::endl;
         Kd -= 2*dp_d;
       }      
     }
@@ -135,11 +139,12 @@ void PID::Twidel(){
         Ki += dp_i;
       }
       else{
+        std::cout << "Ki " << std::endl;
         Ki -= 2*dp_i;
       }      
     }
-  
+  std::cout << Kp << " " << Kd << " " << Ki << std::endl;
   }
   
   
-}
+//}
