@@ -23,9 +23,9 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
   this -> prev_err = 0;
   this -> best_err = 1000000;
   
-  dp_p = Kp/10.0;
-  dp_d = Kd/10.0;
-  dp_i = Ki/10.0;
+  dp_p = Kp/100.;
+  dp_d = Kd/100.0;
+  dp_i = Ki/100.0;
   
   change = true;
   param = 0;
@@ -43,6 +43,8 @@ void PID::UpdateError(double cte) {
   d_error = p_error - prev_err;
   prev_err = cte;
   i_error += prev_err;
+  
+  counter +=1;
 }
 
 double PID::TotalError(double cte) {
@@ -50,7 +52,7 @@ double PID::TotalError(double cte) {
    * Calculate and return the total error
    */
   
-  total_error += cte*cte;
+  total_error += (cte*cte);
   Twidel();
   
   return (Kp*p_error + Kd*d_error + Ki* i_error);  // TODO: Add your total error calc here!
@@ -62,14 +64,15 @@ void PID::Twidel(){
   
   current_err = total_error;
 
+  //total_error = 0;
   double sum = 0;
   
   sum = dp_p + dp_d + dp_i;
   
-  if (sum > 0.1 ){
+  //if (counter > 10 ){
     
     //Kp += dp_p;
-    
+    //counter = 0;
     
     if (current_err < best_err){
       
@@ -143,8 +146,8 @@ void PID::Twidel(){
         Ki -= 2*dp_i;
       }      
     }
-  std::cout << Kp << " " << Kd << " " << Ki << std::endl;
+  std::cout << Kp << " " << Ki << " " << Kd << std::endl;
   }
   
   
-}
+//}
