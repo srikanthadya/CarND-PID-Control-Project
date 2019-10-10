@@ -11,7 +11,7 @@ PID::~PID() {}
 
 void PID::Init(double Kp_, double Ki_, double Kd_) {
   /**
-   * TODO: Initialize PID coefficients (and errors, if needed)
+   * Initialize PID coefficients (and errors, if needed)
    */
   this -> Kp = Kp_;
   this -> Ki = Ki_;
@@ -36,7 +36,7 @@ void PID::Init(double Kp_, double Ki_, double Kd_) {
 
 void PID::UpdateError(double cte) {
   /**
-   * TODO: Update PID errors based on cte.
+   * Update PID errors based on cte.
    */
   
   p_error = cte;
@@ -47,7 +47,7 @@ void PID::UpdateError(double cte) {
 
 double PID::TotalError(double cte) {
   /**
-   * TODO: Calculate and return the total error
+   * Calculate and return the total error
    */
   
   total_error += cte*cte;
@@ -66,7 +66,7 @@ void PID::Twidel(){
   
   sum = dp_p + dp_d + dp_i;
   
-  //if (sum > 0.00001 ){
+  if (sum > 0.1 ){
     
     //Kp += dp_p;
     
@@ -147,4 +147,4 @@ void PID::Twidel(){
   }
   
   
-//}
+}
