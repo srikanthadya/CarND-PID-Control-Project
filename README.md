@@ -38,7 +38,7 @@ Once we have an initial value for the three parameters, we allow the twiddle alg
 
 ## Video
 
-![Video link](https://youtu.be/mxTvz2GgP0Q)
+[Video link](https://youtu.be/mxTvz2GgP0Q)
 _____________________________________________________________________________________________________________________________________________________________________________
 ## Dependencies
 
